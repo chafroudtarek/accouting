@@ -2,7 +2,7 @@
    "USER":{
        "DEFAULT":"UTILISATEUR"
    },
-   "ERREUR": {
+   "ERROR": {
     "DEFAULT": "ERREUR : QUELQUE CHOSE S'EST PASSE.",
     "NOT_FOUND": "NON TROUVÉ.",
     "NOT_UPDATED": "ÉCHEC DE LA MISE À JOUR",
@@ -26,7 +26,7 @@
       "WRONG_ROLE": "L'UTILISATEUR N'A PAS LE RÔLE NÉCESSAIRE."
     }
   },
-    "SUCCES": {
+    "SUCCESS": {
         "DEFAULT": "RÉUSSITE",
         "SAVED": "ENREGISTRÉ AVEC SUCCÈS.",
         "APPROUVED": "APPROUVÉ AVEC SUCCÈS.",

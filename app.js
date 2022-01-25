@@ -5,8 +5,8 @@ import userRouter from './routes/users.js'
 import authRouter from './routes/auth.js'
 import dotenv from 'dotenv';
 import i18next from 'i18next';
-import Backend from 'i18next-node-fs-backend';
-import middleware from 'i18next-express-middleware';
+import Backend from 'i18next-fs-backend';
+import middleware from 'i18next-http-middleware'
 
 
 
@@ -20,11 +20,11 @@ i18next
     .use(Backend)
     .init({
         locales: ['fr','en'],
-        preload: ['fr','en'],
-        fallbackLng: 'en',
+       
+        fallbackLng: 'fr',
         
         backend: {
-            loadPath:  "./locales/{{lng}}/translation.json"
+            loadPath:  './locales/{{lng}}/translation.json'
         },
     });
 
@@ -35,8 +35,9 @@ dotenv.config();
 
 
 //middleware routing 
-app.use(middleware.handle(i18next));
+
 app.use(express.json(), cors());
+app.use(middleware.handle(i18next));
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
