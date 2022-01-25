@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../config.js'
 
 const auth = (req, res, next) => {
   let token = req.headers.authorization.split(' ')[1];
   if (token) {
-    jwt.verify(token, JWT_SECRET, (error, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
       if (error) {
         return res.status(404).json({
-          message: 'Token is not valid',
+          message:req.t('ERROR.AUTH.INVALID_TOKEN'),
         });
       } else {
         req.user = decoded.user;
@@ -16,7 +15,7 @@ const auth = (req, res, next) => {
     });
   } else {
     return res.status(401).json({
-      message: 'No Token, authorization denied',
+      message:req.t('ERROR.AUTH.UNAUTHORIZED'),
       success: false,
     });
   }

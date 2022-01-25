@@ -2,15 +2,18 @@ import mongoose from 'mongoose';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import { JWT_SECRET } from '../config.js';
+
 
 export const getLoggenInUser = async (req, res, next) => {
   const { id } = req.user;
-  console.log(req.user);
+  
   try {
     const user = await User.findOne({ _id: id });
     if (!user) {
-      throw new Error('Authentication failed');
+      return res.status(400).json({
+        message:req.t('ERROR.UNAUTHORIZED')
+        
+      });
     }
     return res.status(200).json({
       user,
@@ -26,13 +29,13 @@ export const getLoggenInUser = async (req, res, next) => {
 export const register = async (req, res, next) => {
   let { firstname, lastname, email, password,role } = req.body;
   if (!firstname || !lastname || !password || !email) {
-    return res.status(400).json({ message: 'Bad input', success: false });
+    return res.status(400).json({ message:req.t('ERROR.AUTH.INVALID_INFORMATION'), success: false });
   }
   try {
     const user = await User.findOne({ email });
     if (user) {
       return res.status(401).json({
-        message: 'User already exits.',
+        message:req.t('ERROR.AUTH.USER_EXISTS'),
         success: false,
       });
     }
@@ -56,7 +59,7 @@ export const register = async (req, res, next) => {
 
       await _user.save();
       return res.status(201).json({
-        message: 'User Created',
+        message:req.t('SUCCESS.ADDED'),
         user: _user,
         success: true,
       });
@@ -75,7 +78,7 @@ export const login = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
-        message: 'Invalid Credentials',
+        message:req.t('ERROR.AUTH.INVALID_CREDNTIALS'),
         success: false,
       });
     }
@@ -83,7 +86,7 @@ export const login = async (req, res, next) => {
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({
-        message: 'Invalid Credentials',
+        message:req.t('ERROR.AUTH.INVALID_CREDNTIALS'),
         success: false,
       });
     }
@@ -95,10 +98,10 @@ export const login = async (req, res, next) => {
       },
     };
 
-    jwt.sign(payload, JWT_SECRET, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
       if (err) throw err;
       return res.status(200).json({
-        message: 'Authentication Successful',
+        message:req.t('SUCCESS.APPROVED'),
         token,
         user,
       });
