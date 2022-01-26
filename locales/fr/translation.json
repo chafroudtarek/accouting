@@ -1,7 +1,5 @@
 {
-   "USER":{
-       "DEFAULT":"UTILISATEUR"
-   },
+   
    "ERROR": {
     "DEFAULT": "ERREUR : QUELQUE CHOSE S'EST PASSE.",
     "NOT_FOUND": "NON TROUVÉ.",

@@ -1,14 +1,16 @@
 import mongoose from 'mongoose';
-
+import { mylogger } from '../utils/winstonn.js';
 
  export const connectDB = async() =>{
 
     try{
 
         await mongoose.connect(process.env.DB_URI);
-          console.log('MongoDB Connected');
+          
+          mylogger.info(' DATABASE(MONGODB) is Connected')
 
     }catch(error){
-        console.log(`can not connect to database ${error}`)
+        
+        mylogger.error(' DATABASE(MONGODB) can not Connected')
     }
 }

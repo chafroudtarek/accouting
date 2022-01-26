@@ -26,7 +26,7 @@ const userSchema = new schema({
         enum: role,
         default: 'STUDENT',
       },
-    gender:{
+    /*gender:{
         type: String,
         enum: gender,
         default: 'STUDENT',
@@ -43,7 +43,7 @@ const userSchema = new schema({
         type: String,
         require: true
     },
-    language:{ 
+    /*language:{ 
         type: String,
         enum:language,
         require: true
@@ -67,7 +67,7 @@ const userSchema = new schema({
 
     deletedAt: Date,
     facebookUrl:String,
-    linkedInUrl:String,
+    linkedInUrl:String,*/
 
 }, {timestamps: true})
 

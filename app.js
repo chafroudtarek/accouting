@@ -4,33 +4,13 @@ import cors from 'cors';
 import userRouter from './routes/users.js'
 import authRouter from './routes/auth.js'
 import dotenv from 'dotenv';
-import i18next from 'i18next';
-import Backend from 'i18next-fs-backend';
+import i18next from './utils/i18nn.js';
 import middleware from 'i18next-http-middleware'
-
-
-
-
-
-
-
-//i18n
-i18next
-    .use(middleware.LanguageDetector)
-    .use(Backend)
-    .init({
-        locales: ['fr','en'],
-       
-        fallbackLng: 'fr',
-        
-        backend: {
-            loadPath:  './locales/{{lng}}/translation.json'
-        },
-    });
+import {mylogger} from './utils/winstonn.js';
+import { getUserLang } from './controllers/user.controllers.js';
 
 const app = express();
 dotenv.config();
-
 
 
 
@@ -38,6 +18,7 @@ dotenv.config();
 
 app.use(express.json(), cors());
 app.use(middleware.handle(i18next));
+app.use(getUserLang);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
@@ -48,4 +29,4 @@ connectDB();
 
 const PORT = process.env.PORT;
 app.listen(PORT, (err) =>
-    err ? console.error(err) : console.log("server is running"));
+    err ? console.error(err) :  mylogger.info(`Server started and running on http://${process.env.HOST}:${PORT}`));

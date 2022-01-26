@@ -1,7 +1,4 @@
-{   "USER": {
-        "DEFAULT": "USER"
-        
-    },
+{   
    "ERROR": {
         "DEFAULT": "ERROR : SOMETHING WENT WRONG.",
         "NOT_FOUND": "NOT FOUND.",

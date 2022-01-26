@@ -10,6 +10,7 @@ export const getLoggenInUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ _id: id });
     if (!user) {
+      mylogger.error(`res.status = "400"  - UNAUTHORIZED - ${req.originalUrl} - ${req.method} - ${req.ip}`)
       return res.status(400).json({
         message:req.t('ERROR.UNAUTHORIZED')
         
@@ -19,6 +20,7 @@ export const getLoggenInUser = async (req, res, next) => {
       user,
     });
   } catch (error) {
+    mylogger.error(`res.status = "500"  - ${error.message} -  ${req.originalUrl} - ${req.method} - ${req.ip}`)
     return res.status(500).json({
       message: error.message,
       error,
@@ -27,13 +29,16 @@ export const getLoggenInUser = async (req, res, next) => {
 };
 
 export const register = async (req, res, next) => {
-  let { firstname, lastname, email, password,role } = req.body;
-  if (!firstname || !lastname || !password || !email) {
+  let { firstname, lastname, email, password,role, birthday, phone} = req.body;
+  if (!firstname || !lastname ||!password || !email || !role || !birthday || !phone) {
+    mylogger.error(`res.status = "400"  - INVALID_INFORMATION - ${req.originalUrl} - ${req.method} - ${req.ip}`)
     return res.status(400).json({ message:req.t('ERROR.AUTH.INVALID_INFORMATION'), success: false });
+    
   }
   try {
     const user = await User.findOne({ email });
     if (user) {
+      mylogger.error(`res.status = "401"  - USER_EXISTS -${req.body.id} ${req.originalUrl} - ${req.method} - ${req.ip}`)
       return res.status(401).json({
         message:req.t('ERROR.AUTH.USER_EXISTS'),
         success: false,
@@ -42,6 +47,7 @@ export const register = async (req, res, next) => {
 
     bcryptjs.hash(password, 10, async (hashError, hash) => {
       if (hashError) {
+        mylogger.error(`res.status = "500"  - ${hashError.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`)
         return res.status(500).json({
           message: hashError.message,
           error: hashError,
@@ -65,6 +71,7 @@ export const register = async (req, res, next) => {
       });
     });
   } catch (error) {
+    mylogger.error(`res.status = "500"  - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`)
     return res.status(500).json({
       message: error.message,
       error,
@@ -77,6 +84,7 @@ export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      mylogger.error(`res.status = "400"  - INVALID_CREDNTIALS - ${req.originalUrl} - ${req.method} - ${req.ip}`)
       return res.status(400).json({
         message:req.t('ERROR.AUTH.INVALID_CREDNTIALS'),
         success: false,
@@ -85,6 +93,7 @@ export const login = async (req, res, next) => {
 
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
+      mylogger.error(`res.status = "400"  - INVALID_CREDNTIALS - ${req.originalUrl} - ${req.method} - ${req.ip}`)
       return res.status(400).json({
         message:req.t('ERROR.AUTH.INVALID_CREDNTIALS'),
         success: false,
@@ -107,6 +116,7 @@ export const login = async (req, res, next) => {
       });
     });
   } catch (error) {
+    mylogger.error(`res.status = "500"  - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`)
     return res.status(500).json({
       message: error.message,
       error: error,
