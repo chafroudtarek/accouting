@@ -1,4 +1,4 @@
-import { exists } from 'i18next';
+
 import User from '../models/User.js';
 import { mylogger } from '../utils/winstonn.js';
 
@@ -77,31 +77,12 @@ export const deleteOneUser = async (req, res) => {
 // update User
 export const updateUser =async (req, res) => {
    
-    try {
-        const result = await User.updateOne({ _id: req.params.id }, { $set: { ...req.body } });
-        result.nModified ?mylogger.error(`res.status = "400"  - SUCCESS.EDITED - ${req.originalUrl} - ${req.method} - ${req.ip}`):res.send({ message:req.t('SUCCESS.EDITED')}) ;
-    } catch (error) {
-        res.status(400).send({ message:req.t('ERROR.NOT_UPDATED')})
-        mylogger.error(`res.status = "400"  - NOT_UPDATED - ${req.originalUrl} - ${req.method} - ${req.ip}`)
-    }
+    User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((user) => res.json(user))
+    .catch((err) => res.status(404).json(err));
+
    
    
-   
-   
-   
-    /*try {
-         
-        const result = await User.findByIdAndUpdate( req.params.id,...req.body );
-        if(result){
-        res.statuts(200).send({ message:req.t('SUCCESS.EDITED')}) ;
-        
-        return;
-    }
-        
-    } catch (error) {
-        res.status(400).send({ message:req.t('ERROR.NOT_UPDATED')})
-        mylogger.error(`res.status = "400"  - NOT_UPDATED - ${req.originalUrl} - ${req.method} - ${req.ip}`)
-    }*/
 }
 
 // get user lang
