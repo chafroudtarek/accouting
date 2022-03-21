@@ -6,10 +6,6 @@ MAINTAINER MOVE UP EDUCATION <tn.moveup@gmail.com>
 
 # Create a directory (to house our source files) and navigate to it.
 WORKDIR /usr/src/app
-
-# Copy over the bash script to test and wait on the availability of a TCP host and port.
-COPY ./wait-for-it.sh /src/
-RUN chmod +x /src/wait-for-it.sh
  
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./ 
