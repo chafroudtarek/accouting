@@ -15,6 +15,3 @@ COPY . .
 
 # Expose the specified port back to the host machine.
 EXPOSE ${PORT}
-
-# Starting Script
-#CMD [ "npm", "run" ,"start" ]
