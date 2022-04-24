@@ -29,10 +29,11 @@ export const createterm = async (req, res) =>{
 export const deleteOneById =  async (req, res) => {
     const id = req.params.id;
     try {
+
       const object = await Academicterm.findOne({_id:id });
       object.enabled = false;
       await object.save();
-     
+
       
       return !object
         ? res.send(404)

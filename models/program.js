@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const schema = mongoose.Schema;
 
 const programschema = new schema({
+
     
     name: {
         type: String,
@@ -35,6 +36,7 @@ const programschema = new schema({
         default: true
     },
     
+
     courses: String,
 
 });

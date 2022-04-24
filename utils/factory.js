@@ -3,7 +3,9 @@ import { mylogger } from "../utils/winstonn.js";
 
 export const getAll = (Model) => async (req, res) => {
   try {
+
     const objects = await Model.find({enabled:true})
+
     res.status(200).json({
       response: objects,
       message:
@@ -102,6 +104,7 @@ export const deleteOne = (Model) => async (req, res) => {
   }
 };
 
+
 export const restore = (Model) => async (req, res) =>{
   
   try{
@@ -136,4 +139,5 @@ export const getAllDisabled = (Model) => async (req, res) =>{
     });
   }
 }
+
 

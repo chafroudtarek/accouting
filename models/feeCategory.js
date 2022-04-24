@@ -14,7 +14,7 @@ const feeCategorySchema = new schema({
     },
     description : {
         type: String,
-        
+
     },
     enabled:{
         type:Boolean,

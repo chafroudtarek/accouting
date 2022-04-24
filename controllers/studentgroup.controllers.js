@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import Student from "../models/student.js"
+
 import Studentgroup from "../models/studentGroup.js"
+
+
 
 
 
@@ -173,11 +176,14 @@ export const getstudentsofgroup = async (req, res) =>{
 }
 
 
+
 export const deletestudent =  async (req, res) => {
     const id = req.params.id;
     try {
       // const object = await Model.findByIdAndDelete(id);
+
       const object = await Studentgroup.findById(id);
+
       
      
       
@@ -196,6 +202,7 @@ export const deletestudent =  async (req, res) => {
 
       });
     }
+
   };
 
 
@@ -344,3 +351,4 @@ export const getAllDisabled= async (req, res) =>{
   }
   
   }
+

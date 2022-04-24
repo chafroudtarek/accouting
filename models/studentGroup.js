@@ -10,10 +10,12 @@ const studentGroupschema = new schema({
         ref:"academicterm"
 
     },
+
     enabled:{
         type: Boolean,
         default:true
     },
+
     academicyear:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"academicyear"
@@ -23,11 +25,13 @@ const studentGroupschema = new schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"student"
     }],
+
     program: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "program"
     },
     maxsize:String,
+
     instructor : [{
         code : String,
         name:String

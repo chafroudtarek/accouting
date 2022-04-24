@@ -18,10 +18,12 @@ const feescheduleschema = new schema({
         }
     ],
     dueDate : Date,
+
     enabled:{
         type: Boolean,
         default:true
     },
+
 
     
    

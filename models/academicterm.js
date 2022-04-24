@@ -4,6 +4,7 @@ const schema = mongoose.Schema;
 
 const academictermschema = new schema({
    
+
     academicyear: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "academicyear"
@@ -14,6 +15,7 @@ const academictermschema = new schema({
         type:Boolean,
         default: true
     }
+
     
 
 },

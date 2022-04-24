@@ -13,6 +13,8 @@ import routes from './routes/index.js';
 
 
 
+
+
 const app = express();
 dotenv.config();
 
@@ -28,9 +30,11 @@ app.use(middleware.handle(i18next));
 app.use(routes);
 
 
+
 //kafka
 import {run} from './utils/consumer.js'
 run().catch(console.error)
+
 
 //Server
 connectDB();
