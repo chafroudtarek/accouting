@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import {getAll,getOne,restore,createOne, updateOne,deleteOne} from "../../utils/factory.js"
+import {getAll,getOne,restore,createOne, updateOne,deleteOne,} from "../../utils/factory.js"
 import feeStruct from "../../models/feeStructure.js"
-import {getitemsbyname, getAllDisabled} from '../../controllers/feestruct.controllers.js'
+import {getitemsbyname, getAllDisabled,getonefeestruct} from '../../controllers/feestruct.controllers.js'
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.get('/byname', getitemsbyname);
 
 router.get('/', getAll(feeStruct));
 router.post('/', createOne(feeStruct));
-router.get('/:id',getOne(feeStruct));
+router.get('/:id',getonefeestruct);
 router.put('/:id', updateOne(feeStruct));
 router.delete('/:id', deleteOne(feeStruct));
 

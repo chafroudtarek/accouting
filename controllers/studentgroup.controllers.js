@@ -51,6 +51,47 @@ aggregation.unshift(
       }
   }
 )
+aggregation.unshift(
+
+    
+
+    {
+        '$lookup': {
+            'from': 'feestructs',
+            'let': {
+                'feeStructId': '$feeStructureId'
+            },
+
+            'pipeline': [
+                {
+                    '$match': {
+                        '$expr': {
+                            '$and': [
+                                {
+                                    '$eq': [
+                                        '$_id', '$$feeStructId'
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    '$project': {
+                        name: 1
+                    }
+                }
+            ],
+            'as': 'feestructname'
+        }
+    },
+    {
+        "$unwind": {
+            "path": "$feestructname"
+        }
+    }
+)
+
 
 aggregation.unshift(
   {
@@ -165,8 +206,8 @@ export const getstudentsofgroup = async (req, res) =>{
 
   const id = req.params.id
   try{
-   const students =  await Studentgroup.findById(id).populate("students")
-   
+   const students =  await Studentgroup.findOne({_id: req.params.id})
+   console.log("POPULATE",students)
    res.send({response:students});
   }catch(e)
   {

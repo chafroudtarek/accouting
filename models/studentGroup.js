@@ -22,16 +22,54 @@ const studentGroupschema = new schema({
     },
     students: [
         {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"student"
-    }],
+            firstname: {
+                type: String,
+              },
+              lastname: {
+                type: String,
+               
+              },
+              username: {
+                type: String,
+                trim: true,
+                unique: "username already registered",
+              },
+              
+              email: {
+                type: String,
+                trim: true,
+                required: "email is required",
+                unique: "email already registered",
+                match: [/.+\@.+\..+/, "Valid email required"],
+              },
+            
+          
+              
+              
+             
+              enabled: {
+                type: Boolean,
+                default: true,
+              },
+              
+              studentNiveauId: {
+                type: mongoose.Types.ObjectId,
+                
+              }
+            
+        }],
 
     program: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "program"
     },
+    feeStructureId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"feeStruct"
+      
+  },
     maxsize:String,
-
+    
     instructor : [{
         code : String,
         name:String
