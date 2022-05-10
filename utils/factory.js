@@ -1,24 +1,98 @@
 import { mylogger } from "../utils/winstonn.js";
+import academicterm from "../models/academicterm.js"
+import academicyear from "../models/academicyear.js"
+import feeschedule from "../models/feeschedule.js"
+import program from "../models/program.js"
+import feeCategory from "../models/feeCategory.js"
 
 
 export const getAll = (Model) => async (req, res) => {
+   var aggregation = [];
+   var query = []
+   mylogger.error(`filtre value____________${req.query.filtre}`)
   try {
+   
+    aggregation.unshift({
+        $match: {
+            enabled: true
+        }
+    })
 
-    const objects = await Model.find({enabled:true})
+    var filterValue = ''
+    if (req.query.filtre != '') {
+        filterValue = req.query.filtre
+        mylogger.error(`filtre value********${filterValue}`)
 
+        switch (Model) {
+            case academicterm:
+                query.unshift(
+                  { name: { $regex: `${filterValue}`, $options: 'i' } }
+                )
+            case academicyear:
+                  query.unshift(
+                    { name: { $regex: `${filterValue}`, $options: 'i' } }
+                  )
+          case program:
+                    query.unshift(
+                      { name: { $regex: `${filterValue}`, $options: 'i' } }
+                    )
+          case feeCategory:
+                      query.unshift(
+                        { name: { $regex: `${filterValue}`, $options: 'i' } }
+                      )          
+            
+          case feeschedule:
+                  query.unshift(
+                    { name: { $regex: `${filterValue}`, $options: 'i' } }
+                  )          
+               
+            
+            
+         
+            default:
+                break;
+        }
+
+        aggregation.unshift(
+            {
+                $match: {
+                    $or: query
+                }
+            }
+        )
+    }
+
+    console.log(Model)
+    const objects = await Model.aggregate(aggregation)
+    if (!objects || !objects.length) return res.status(404).json({ message: req.t("ERROR.NOT_FOUND") })
     res.status(200).json({
-      response: objects,
-      message:
-        objects?.length > 0
-          ? req.t("SUCCESS.RETRIEVED")
-          : req.t("ERROR.NOT_FOUND"),
-    });
-  } catch (e) {
-    mylogger.error(`Error in getAll() function`);
+        response: objects,
+        message: req.t("SUCCESS.RETRIEVED")
+    })
+} catch (e) {
+    mylogger.error(`Error in getAll() function`, e)
     return res.status(400).json({
-      message: req.t("ERROR.UNAUTHORIZED"),
+        message: req.t("ERROR.BAD_REQUEST")
     });
-  }
+}
+
+  // try {
+
+  //   const objects = await Model.find({enabled:true})
+
+  //   res.status(200).json({
+  //     response: objects,
+  //     message:
+  //       objects?.length > 0
+  //         ? req.t("SUCCESS.RETRIEVED")
+  //         : req.t("ERROR.NOT_FOUND"),
+  //   });
+  // } catch (e) {
+  //   mylogger.error(`Error in getAll() function`);
+  //   return res.status(400).json({
+  //     message: req.t("ERROR.UNAUTHORIZED"),
+  //   });
+  // }
 };
 
 export const getOne = (Model) => async (req, res) => {

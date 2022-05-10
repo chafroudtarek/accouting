@@ -6,7 +6,7 @@ import feeSchedule from "../models/feeschedule.js";
 export const getwithname= async (req, res) =>{
 
     var aggregation = [{ $match : { enabled : true } }]
-
+    var query = [];
 aggregation.unshift(
 
     
@@ -48,6 +48,22 @@ aggregation.unshift(
     }
 )
 
+var filterValue = ''
+    if (req.query.filtre != '') {
+        filterValue = req.query.filtre
+        console.log("FILTER VALUE ", filterValue)
+        query.unshift(
+            { 'feestructname.name': { $regex: `${filterValue}`, $options: 'i' } }
+          )
+          aggregation.unshift(
+            {
+                $match: {
+                    $or: query
+                }
+            }
+        )
+    }
+    
 
 
 

@@ -5,7 +5,7 @@ import feeStruct from "../models/feeStructure.js";
 export const getitemsbyname= async (req, res) =>{
 
     var aggregation = [ { $match : { enabled : true } }]
-
+    var query = [];
 aggregation.unshift(
     
 
@@ -126,6 +126,21 @@ aggregation.unshift(
         }
     }
 )
+var filterValue = ''
+    if (req.query.filtre != '') {
+        filterValue = req.query.filtre
+        console.log("filtre value", filterValue)
+        query.unshift(
+            { name: { $regex: `${filterValue}`, $options: 'i' } }
+          )
+          aggregation.unshift(
+            {
+                $match: {
+                    $or: query
+                }
+            }
+        )
+    }
 
   try{
       const feestruct  = await feeStruct.aggregate(aggregation)
