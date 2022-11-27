@@ -19,7 +19,7 @@ export const getAll = (Model) => async (req, res) => {
     })
 
     var filterValue = ''
-    if (req.query.filtre != '') {
+    if (req.query?.filter) {
         filterValue = req.query.filtre
         mylogger.error(`filtre value********${filterValue}`)
 

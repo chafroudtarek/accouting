@@ -170,21 +170,7 @@ aggregation.unshift(
   }
 )
 
-var filterValue = ''
-    if (req.query.filtre != '') {
-        filterValue = req.query.filtre
-        console.log("filtre value", filterValue)
-        query.unshift(
-            { name: { $regex: `${filterValue}`, $options: 'i' } }
-          )
-          aggregation.unshift(
-            {
-                $match: {
-                    $or: query
-                }
-            }
-        )
-    }
+
 
 try{
     const studentgroup  = await Studentgroup.aggregate(aggregation)

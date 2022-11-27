@@ -49,7 +49,8 @@ aggregation.unshift(
 )
 
 var filterValue = ''
-    if (req.query.filtre != '') {
+
+    if ((req.query.filtre != '') &&(req.query.filtre)){
         filterValue = req.query.filtre
         console.log("FILTER VALUE ", filterValue)
         query.unshift(
